@@ -17,4 +17,12 @@ class Products extends ActiveRecord
     {
         return $this->hasMany(Orders::className(), ['product_id' => 'id']);
     }
+
+    public function rules()
+    {
+        return [
+            [['name','price'], 'required',],
+            ['name', 'unique'],
+        ];
+    }
 }

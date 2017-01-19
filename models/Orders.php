@@ -22,4 +22,16 @@ class Orders extends ActiveRecord
     {
         return $this->hasOne(Products::className(), ['id' => 'product_id']);
     }
+
+    public function rules()
+    {
+        return [
+            [['quantity','date','user_id','product_id'], 'required',],
+        ];
+    }
+
+    public function extraFields()
+    {
+        return ['product','user'];
+    }
 }
