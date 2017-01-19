@@ -10,16 +10,16 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class Order extends ActiveRecord
+class Orders extends ActiveRecord
 {
 
     public  function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Users::className(), ['id' => 'user_id']);
     }
 
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Products::className(), ['id' => 'product_id']);
     }
 }
