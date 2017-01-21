@@ -16,7 +16,15 @@ class OrderController extends ActiveController
 {
     public $modelClass = 'app\models\Orders';
 
-    public function actionSearch() {
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index']);
+
+        return $actions;
+    }
+
+    public function actionIndex() {
 
         $request = \Yii::$app->request;
         $period = $request->get('period');
@@ -63,7 +71,10 @@ class OrderController extends ActiveController
                     // Allow OPTIONS caching
                     'Access-Control-Max-Age' => 86400,
                     // Allow the X-Pagination-Current-Page header to be exposed to the browser.
-                    'Access-Control-Expose-Headers' => ['X-Pagination-Current-Page'],
+                    'Access-Control-Expose-Headers' => [
+                        'X-Pagination-Current-Page','X-Pagination-Page-Count',
+                        'X-Pagination-Per-Page','X-Pagination-Total-Count',
+                    ],
                 ],
             ],
 
