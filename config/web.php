@@ -46,15 +46,12 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'product'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'order'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['user','product','order'], 'extraPatterns' => ['GET search' => 'search']],
             ],
         ],
     ],
     'params' => $params,
 ];
-
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';

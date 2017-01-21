@@ -8,12 +8,39 @@
 
 namespace app\controllers;
 
+use app\models\Orders;
 use yii\filters\Cors;
 use yii\rest\ActiveController;
 
 class OrderController extends ActiveController
 {
     public $modelClass = 'app\models\Orders';
+
+    public function actionSearch() {
+
+        $request = \Yii::$app->request;
+        $period = $request->get('period');
+        $name = $request->get('name');
+        $query = Orders::find();
+
+        // Check the period filter
+        if ($period == 'today') {
+            $query = $query->andOnCondition(['date' => date('Y-m-d')]);
+        }
+        if ($period == 'week') {
+            $query = $query->andWhere('YEARWEEK(date) = YEARWEEK(NOW())');
+        }
+
+        // check the search name filter
+        if (!empty($name)) {
+            $query = $query->joinWith(['product p','user u'])
+                ->andWhere(['or', ['like', 'p.name', $name], ['like', 'u.name', $name]]);
+        }
+
+        return new \yii\data\ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
 
     /**
      * @inheritdoc
